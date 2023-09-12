@@ -4,10 +4,10 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Text;
 
-namespace addressbook_web_tests
+namespace WebAddressbookTests
 {
     [TestFixture]
-    public class UntitledTestCase
+    public class GroupCreationTests
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -37,7 +37,7 @@ namespace addressbook_web_tests
         }
 
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void GroupCreationTest()
         {
             driver.Navigate().GoToUrl(baseURL);
             driver.FindElement(By.Name("user")).Click();
@@ -51,17 +51,18 @@ namespace addressbook_web_tests
             driver.FindElement(By.Name("new")).Click();
             driver.FindElement(By.Name("group_name")).Click();
             driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys("1");
+            driver.FindElement(By.Name("group_name")).SendKeys("test");
             driver.FindElement(By.Name("group_header")).Click();
             driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys("2");
+            driver.FindElement(By.Name("group_header")).SendKeys("test");
             driver.FindElement(By.Name("group_footer")).Click();
             driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys("3");
+            driver.FindElement(By.Name("group_footer")).SendKeys("test");
             driver.FindElement(By.Name("submit")).Click();
             driver.FindElement(By.LinkText("group page")).Click();
             driver.FindElement(By.LinkText("Logout")).Click();
         }
+
         private bool IsElementPresent(By by)
         {
             try
