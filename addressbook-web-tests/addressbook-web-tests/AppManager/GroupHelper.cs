@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
@@ -16,7 +11,6 @@ namespace WebAddressbookTests
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
-
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
@@ -24,10 +18,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int groupNumber, GroupData newData)
+        public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(groupNumber);
+            SelectGroup(index);
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -35,10 +29,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Remove(int groupNumber)
+        public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(groupNumber);
+            SelectGroup(index);
             RemoveGroup();
             ReturnToGroupsPage();
             return this;

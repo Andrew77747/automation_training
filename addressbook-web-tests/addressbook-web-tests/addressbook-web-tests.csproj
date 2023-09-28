@@ -75,10 +75,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppManager\ContactHelper.cs" />
     <Compile Include="Models\AccountData.cs" />
     <Compile Include="AppManager\ApplicationManager.cs" />
     <Compile Include="Tests\ContactCreationTests.cs" />
     <Compile Include="Models\ContactData.cs" />
+    <Compile Include="Tests\ContactModificationTests.cs" />
+    <Compile Include="Tests\ContactRemovalTests.cs" />
     <Compile Include="Tests\GroupCreationTests.cs" />
     <Compile Include="Models\GroupData.cs" />
     <Compile Include="AppManager\GroupHelper.cs" />

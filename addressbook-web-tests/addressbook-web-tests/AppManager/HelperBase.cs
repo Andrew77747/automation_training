@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
@@ -16,6 +11,11 @@ namespace WebAddressbookTests
         {
             this.manager = manager;
             driver = manager.Driver;
-        }   
+        }
+
+        public void AcceptAlert()
+        {
+            driver.SwitchTo().Alert().Accept();
+        }
     }
 }
