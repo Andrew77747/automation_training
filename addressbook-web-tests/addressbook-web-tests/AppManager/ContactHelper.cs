@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Core;
+using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -19,6 +20,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int index, ContactData contact)
         {
+            manager.Navigator.GoToHomePage();
             InitContactModification(index);
             FillContactForm(contact);
             SubmitContactModification();
@@ -28,11 +30,21 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int index)
         {
+            manager.Navigator.GoToHomePage();
             SelectContact(index);
             InitRemoveContact();
             //TODO не всегда удаляет, надо дожидаться алерта
             AcceptAlert();
             return this;
+        }
+
+        public void CreateContactIfNotExist()
+        {
+            if (!IsElementPresent(By.Name("entry")))
+            {
+                var contactData = new ContactData("Иван", "Сергеев");
+                Create(contactData);
+            }
         }
 
         public ContactHelper InitContactModification(int index)

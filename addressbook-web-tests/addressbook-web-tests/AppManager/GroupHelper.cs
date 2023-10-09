@@ -38,6 +38,18 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public void CreateGroupIfNotExist()
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (!IsElementPresent(By.ClassName("group")))
+            {
+                var group = new GroupData("newGroup");
+                group.Header = "groupHeader";
+                group.Footer = "groupFooter";
+                Create(group);
+            }
+        }
+
         public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
@@ -46,12 +58,9 @@ namespace WebAddressbookTests
 
         public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            Type(By.Name("group_name"), group.Name);
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
             return this;
         }
 

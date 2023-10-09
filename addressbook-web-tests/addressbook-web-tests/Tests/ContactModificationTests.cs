@@ -3,11 +3,13 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests : TestBase
+    public class ContactModificationTests : AuthTestBase
     {
         [Test]
         public void ContactModificationTest()
         {
+            app.Contacts.CreateContactIfNotExist();
+
             ContactData contact = new ContactData("Сергей", "Сергеев");
             contact.Middlename = "Сергеевич";
 

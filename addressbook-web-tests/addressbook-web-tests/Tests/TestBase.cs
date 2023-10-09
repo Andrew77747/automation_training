@@ -7,17 +7,18 @@ namespace WebAddressbookTests
         protected ApplicationManager app;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            app = new ApplicationManager();
-            app.Navigator.GoToHomePage();
-            app.Auth.Login(new AccountData("admin", "secret"));
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
+            app = ApplicationManager.GetInstance();
         }
     }
 }
+
+//[TearDown]
+//public void TearDownTest()
+//{
+//    ApplicationManager.GetIntance().Driver.Quit();
+//}
+// куда девать этот метод
+// как понять сколько раз запускается и во сколько потоков
+// посмотреть видео в закладках про многопоточность
