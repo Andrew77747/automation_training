@@ -1,5 +1,7 @@
 ﻿using NUnit.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -38,6 +40,21 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public List<ContactData> GetContactList()
+        {
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            List<ContactData> contacts = new List<ContactData>();
+
+            foreach (IWebElement element in elements)
+            {
+                contacts.Add(new ContactData(element.FindElement(By.XPath("td[3]")).Text, 
+                    element.FindElement(By.XPath("td[2]")).Text));
+            }
+
+            return contacts;
+        }
+
         public void CreateContactIfNotExist()
         {
             if (!IsElementPresent(By.Name("entry")))
@@ -50,14 +67,14 @@ namespace WebAddressbookTests
         public ContactHelper InitContactModification(int index)
         {
             //TODO это правильный селектор и его надо вынести в старый код
-            driver.FindElement(By.XPath($"//*[@name='MainForm']//tr[{index + 1}]/td[8]")).Click();
+            driver.FindElement(By.XPath($"//*[@name='MainForm']//tr[{index + 2}]/td[8]")).Click();
             return this;
         }
 
         public ContactHelper SelectContact(int index)
         {
             //TODO это правильный селектор и его надо вынести в старый код
-            driver.FindElement(By.XPath($"//*[@name='MainForm']//tr[{index + 1}]/td[1]")).Click();
+            driver.FindElement(By.XPath($"//*[@name='MainForm']//tr[{index + 2}]/td[1]")).Click();
             return this;
         }
 
