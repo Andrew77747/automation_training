@@ -40,21 +40,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public List<ContactData> GetContactList()
-        {
-            manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-            List<ContactData> contacts = new List<ContactData>();
-
-            foreach (IWebElement element in elements)
-            {
-                contacts.Add(new ContactData(element.FindElement(By.XPath("td[3]")).Text, 
-                    element.FindElement(By.XPath("td[2]")).Text));
-            }
-
-            return contacts;
-        }
-
         public void CreateContactIfNotExist()
         {
             if (!IsElementPresent(By.Name("entry")))
@@ -92,12 +77,14 @@ namespace WebAddressbookTests
 
         public ContactHelper SubmitContactCreation()
         {
+            contactCash = null;
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
 
         public ContactHelper SubmitContactModification()
         {
+            contactCash = null;
             //TODO здесь три элемента по такому селектору, а в старом коде два вместе с кнопкой Delete //input[@name='update'][1]
             driver.FindElement(By.Name("update")).Click();
             return this;
@@ -112,6 +99,26 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("lastname")).Clear();
             driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
             return this;
+        }
+
+        private List<ContactData> contactCash = null;
+
+        public List<ContactData> GetContactList()
+        {
+            if (contactCash != null)
+            {
+                contactCash = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+                foreach (IWebElement element in elements)
+                {
+                    contactCash.Add(new ContactData(element.FindElement(By.XPath("td[3]")).Text,
+                        element.FindElement(By.XPath("td[2]")).Text));
+                }
+            }
+
+            return new List<ContactData>(contactCash);
         }
     }
 }
