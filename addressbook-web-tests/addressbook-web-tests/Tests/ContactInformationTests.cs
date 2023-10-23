@@ -1,12 +1,10 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
     public class ContactInformationTests : AuthTestBase
     {
-
         [Test]
         public void TestContactInformation()
         {
@@ -16,6 +14,7 @@ namespace WebAddressbookTests
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
+            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
     }
 }
