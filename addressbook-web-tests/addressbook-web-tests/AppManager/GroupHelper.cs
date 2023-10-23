@@ -125,6 +125,38 @@ namespace WebAddressbookTests
             return new List<GroupData>(groupCash);
         }
 
+        public List<GroupData> GetGroupList2() //TODO можно удалить, т.к. этот метод не используем и в старом коде нет
+        {
+            if (groupCash == null)
+            {
+                groupCash = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCash.Add(new GroupData(null)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
+                string allGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+                string[] parts = allGroupNames.Split('\n');
+                int shift = groupCash.Count - parts.Length;
+                for (int i = 0; i < groupCash.Count; i++) 
+                {
+                    if (i < shift) 
+                    {
+                        groupCash[i].Name = "";
+                    }
+                    else
+                    {
+                        groupCash[i].Name = parts[i - shift].Trim();
+                    }
+                }
+            }
+            return new List<GroupData>(groupCash);
+        }
+
         public int GetGroupCount()
         {
             return driver.FindElements(By.CssSelector("span.group")).Count;
