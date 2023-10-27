@@ -1,9 +1,6 @@
-﻿using NUnit.Core;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
@@ -64,6 +61,15 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper ShowContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+
+            return this;
+        }
+
         public ContactHelper SelectContact(int index)
         {
             //TODO это правильный селектор и его надо вынести в старый код
@@ -100,12 +106,9 @@ namespace WebAddressbookTests
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("middlename"), contact.Middlename);
+            Type(By.Name("lastname"), contact.Lastname);
             return this;
         }
 
@@ -113,7 +116,7 @@ namespace WebAddressbookTests
 
         public List<ContactData> GetContactList()
         {
-            if (contactCash != null)
+            if (contactCash == null)
             {
                 contactCash = new List<ContactData>();
                 manager.Navigator.GoToHomePage();
@@ -148,12 +151,13 @@ namespace WebAddressbookTests
             };
         }
 
-        public ContactData GetContactInformationEditForm(int index)
+        public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.GoToHomePage();
-            InitContactModification(0);
+            InitContactModification(index);
             string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
@@ -166,6 +170,7 @@ namespace WebAddressbookTests
 
             return new ContactData(firstname, lastname)
             {
+                Middlename = middlename,
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
@@ -182,6 +187,15 @@ namespace WebAddressbookTests
             string text = driver.FindElement(By.TagName("label")).Text;
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
+        }
+
+        public ContactData GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            ShowContactDetails(index);
+            string contactDetails = driver.FindElement(By.Id("content")).Text;
+
+            return new ContactData("", "") { AllInOne = contactDetails };
         }
     }
 }
